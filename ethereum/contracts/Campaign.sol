@@ -27,15 +27,15 @@ contract Campaign {
     address public manager;
     uint256 public minimumContribution;
     mapping(address => bool) public approvers;
-    uint256 approversCount;
+    uint256 public approversCount;
 
     modifier restricted() {
         require(msg.sender == manager);
         _;
     }
 
-    function Campaign(uint256 minimum, address campaignManager) public {
-        manager = campaignManager;
+    function Campaign(uint256 minimum, address creator) public {
+        manager = creator;
         minimumContribution = minimum;
     }
 
@@ -51,7 +51,6 @@ contract Campaign {
         uint256 value,
         address recipient
     ) public restricted {
-        require(approvers[msg.sender]);
         Request memory newRequest = Request({
             description: description,
             value: value,
@@ -76,10 +75,34 @@ contract Campaign {
     function finalizeRequest(uint256 index) public restricted {
         Request storage request = requests[index];
 
-        require(!request.complete);
         require(request.approvalCount > (approversCount / 2));
+        require(!request.complete);
 
         request.recipient.transfer(request.value);
         request.complete = true;
+    }
+
+    function getSummary()
+        public
+        view
+        returns (
+            uint256,
+            uint256,
+            uint256,
+            uint256,
+            address
+        )
+    {
+        return (
+            minimumContribution,
+            this.balance,
+            requests.length,
+            approversCount,
+            manager
+        );
+    }
+
+    function getRequestsCount() public view returns (uint256) {
+        return requests.length;
     }
 }
