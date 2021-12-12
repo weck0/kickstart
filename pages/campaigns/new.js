@@ -37,17 +37,17 @@ class CampaignNew extends Component {
             <Layout>
                 <h3>Create a campaign</h3>
                 <Form onSubmit={this.onSubmit} error={!!this.state.errorMessage}>
-                <Form.Field>
-                    <label>Minimum Contribution</label>
-                    <Input 
-                    label='wei' 
-                    labelPosition='right'
-                    value={this.state.minimumContribution}
-                    onChange={event => this.setState({ minimumContribution: event.target.value })} />
-                </Form.Field>
-                <Message error header="Oops!" content={this.state.errorMessage}/>
-                <Button loading={this.state.loading} primary>Create !</Button>
-            </Form>
+                    <Form.Field>
+                        <label>Minimum Contribution</label>
+                        <Input 
+                        label='wei' 
+                        labelPosition='right'
+                        value={this.state.minimumContribution}
+                        onChange={event => this.setState({ minimumContribution: event.target.value })} />
+                    </Form.Field>
+                    <Message error header="Oops!" content={this.state.errorMessage}/>
+                    <Button loading={this.state.loading} primary>Create !</Button>
+                </Form>
             </Layout>
 
         );
