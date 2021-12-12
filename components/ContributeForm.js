@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Form, Input, Button, Message } from 'semantic-ui-react';
 import web3 from '../ethereum/web3';
 import Campaign from '../ethereum/campaign';
+import { Router } from '../routes'
 
 class ContributeForm extends Component {
 
@@ -22,6 +23,7 @@ class ContributeForm extends Component {
                     from: accounts[0],
                     value: web3.utils.toWei(this.state.contribution, 'ether')
                 });
+            Router.replaceRoute(`/campaigns/${this.props.address}`)
         } catch (error) {
             this.setState({errorMessage: error.message});
         }
@@ -35,7 +37,7 @@ class ContributeForm extends Component {
                 <Form.Field>
                     <label>Amount to contribute</label>
                     <Input 
-                    label='ether'
+                    label='ETH'
                     labelPosition='right'
                     value={this.state.contribution}
                     onChange={event => this.setState({ contribution: event.target.value })} />
